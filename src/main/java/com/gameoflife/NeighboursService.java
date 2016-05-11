@@ -3,6 +3,7 @@ package com.gameoflife;
 import com.gameoflife.models.Coord;
 import com.gameoflife.models.GameState;
 import com.google.common.collect.Lists;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
 
+@Component
 public class NeighboursService {
 
     @Nullable
@@ -38,8 +40,13 @@ public class NeighboursService {
         // bottomRight
         neighbourValues.add(gameState.getState(coord.getX() + 1, coord.getY() + 1));
 
-        neighbourValues.removeAll(Collections.singleton(null));
+        removeNullsFromList(neighbourValues);
 
         return neighbourValues;
+    }
+
+    private void removeNullsFromList(@Nonnull List<Boolean> neighbourValues) {
+
+        neighbourValues.removeAll(Collections.singleton(null));
     }
 }

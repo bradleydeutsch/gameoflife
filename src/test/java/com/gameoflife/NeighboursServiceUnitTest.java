@@ -33,7 +33,10 @@ public class NeighboursServiceUnitTest {
     public void getNeighbourValuesWillThrowAnExceptionIfCoordIsNull() {
 
         // test fixtures
-        final GameState gameState = new GameState(0, 0);
+        final GameState gameState = GameState.Builder.create()
+                .withWidth(0)
+                .withHeight(0)
+                .build();
         final Coord coord = null;
 
         // when
@@ -44,13 +47,16 @@ public class NeighboursServiceUnitTest {
     public void getNeighbourValuesReturnsListOfNeighbourValues() {
 
         // test fixtures
-        final GameState gameState = new GameState(3, 3);
         // 0 1 1
         // 1 x 0
         // 0 0 0
-        gameState.setState(1, 0, true);
-        gameState.setState(2, 0, true);
-        gameState.setState(0, 1, true);
+        final GameState gameState = GameState.Builder.create()
+                .withWidth(3)
+                .withHeight(3)
+                .withCurrentValue(1, 0, Boolean.TRUE)
+                .withCurrentValue(2, 0, Boolean.TRUE)
+                .withCurrentValue(0, 1, Boolean.TRUE)
+                .build();
         final Coord coord = new Coord(1, 1);
 
         // when
@@ -65,10 +71,13 @@ public class NeighboursServiceUnitTest {
     public void getNeighbourValuesWillOnlyAddValuesForNeighboursThatExist() {
 
         // test fixtures
-        final GameState gameState = new GameState(2, 2);
         // x 0
         // 0 1
-        gameState.setState(1, 1, true);
+        final GameState gameState = GameState.Builder.create()
+                .withWidth(2)
+                .withHeight(2)
+                .withCurrentValue(1, 1, Boolean.TRUE)
+                .build();
         final Coord coord = new Coord(0, 0);
 
         // when

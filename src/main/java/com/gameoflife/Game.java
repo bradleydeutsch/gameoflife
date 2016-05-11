@@ -23,7 +23,10 @@ public class Game {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
-        this.gameState = new GameState(gameWidth, gameHeight);
+        this.gameState = GameState.Builder.create()
+                .withWidth(gameWidth)
+                .withHeight(gameHeight)
+                .build();
     }
 
     @PostConstruct
