@@ -40,7 +40,7 @@ public class StateServiceUnitTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getStartingPointsWillThrowAnExceptionIfFilePathIsNull() throws IOException {
+    public void getStartingPointsWillThrowAnExceptionIfFilePathIsNull() {
 
         // test fixtures
         final String filePath = null;

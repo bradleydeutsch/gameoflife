@@ -53,9 +53,10 @@ public class StateService {
             while ((line = bufferedReader.readLine()) != null) {
                 startingPoints.put(getCoordFromFileLine(line), Boolean.TRUE);
             }
+
             bufferedReader.close();
         } catch (IOException ex) {
-            // Do nothing
+            System.out.println(format("Problem with reading the given filePath \"%s\"", filePath));
         }
 
         return startingPoints;
