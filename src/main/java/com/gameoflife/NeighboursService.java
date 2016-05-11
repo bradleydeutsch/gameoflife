@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import static org.springframework.util.Assert.notNull;
 @Component
 public class NeighboursService {
 
-    @Nullable
+    @Nonnull
     public List<Boolean> getNeighbourValues(@Nonnull GameState gameState, @Nonnull Coord coord) {
 
         notNull(gameState);

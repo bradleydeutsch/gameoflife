@@ -2,27 +2,80 @@ package com.gameoflife;
 
 import com.gameoflife.models.Coord;
 import com.gameoflife.models.GameState;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
+import static java.lang.String.format;
 import static org.springframework.util.Assert.notNull;
 
 @Component
 public class StateService {
 
     private final NeighboursService neighboursService;
+    private final FileService fileService;
 
     @Autowired
     public StateService(
-            @Nonnull NeighboursService neighboursService
+            @Nonnull NeighboursService neighboursService,
+            @Nonnull FileService fileService
     ) {
 
         notNull(neighboursService);
+        notNull(fileService);
 
         this.neighboursService = neighboursService;
+        this.fileService = fileService;
+    }
+
+    @Nonnull
+    public Map<Coord, Boolean> getStartingPoints(@Nonnull String filePath) {
+
+        notNull(filePath);
+
+        Map<Coord, Boolean> startingPoints = Maps.newHashMap();
+
+        try {
+
+            BufferedReader bufferedReader = getBufferedReaderForFile(filePath);
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                startingPoints.put(getCoordFromFileLine(line), Boolean.TRUE);
+            }
+            bufferedReader.close();
+        } catch (IOException ex) {
+            // Do nothing
+        }
+
+        return startingPoints;
+    }
+
+    @Nonnull
+    private BufferedReader getBufferedReaderForFile(@Nonnull String filePath) throws FileNotFoundException {
+
+        File file = fileService.readFile(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        return new BufferedReader(new InputStreamReader(fileInputStream));
+    }
+
+    @Nonnull
+    private Coord getCoordFromFileLine(@Nonnull String line) {
+
+        String[] coords = line.split(",");
+
+        return new Coord(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
     }
 
     @Nonnull
@@ -35,8 +88,9 @@ public class StateService {
         List<Boolean> neighbourValues = neighboursService.getNeighbourValues(gameState, coord);
         int trueCount = trueCount(neighbourValues);
 
-        if (neighbourValues.size() < 8) {
-            return currentlyLive;
+        if (currentlyLive == null) {
+            throw new IllegalArgumentException(
+                    format("The co-ordinate provided (%s, %s) is invalid", coord.getX(), coord.getY()));
         }
 
         if (currentlyLive && trueCount < 2) {

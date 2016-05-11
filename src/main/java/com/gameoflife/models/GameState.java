@@ -49,6 +49,20 @@ public class GameState {
         game.get(coord.getX()).put(coord.getY(), value);
     }
 
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry<Integer, Map<Integer, Boolean>> x : game.entrySet()) {
+            for (Map.Entry<Integer, Boolean> y : x.getValue().entrySet()) {
+                sb.append(y.getValue() ? "X" : ".").append(" ");
+            }
+            sb.replace(sb.length() - 1, sb.length(), "").append("\n");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
     public static class Builder {
 
         private int width;

@@ -9,11 +9,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.verify;
 
@@ -25,9 +31,48 @@ public class StateServiceUnitTest {
     @Mock
     private NeighboursService neighboursService;
 
+    @Mock
+    private FileService fileService;
+
     @Before
     public void before() {
-        sut = new StateService(neighboursService);
+        sut = new StateService(neighboursService, fileService);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getStartingPointsWillThrowAnExceptionIfFilePathIsNull() throws IOException {
+
+        // test fixtures
+        final String filePath = null;
+
+        // when
+        sut.getStartingPoints(filePath);
+    }
+
+    @Test
+    public void getStartingPointsWillReturnAMapOfStartingPoints() throws IOException {
+
+        // test fixtures
+        final String filePath = "file-path.txt";
+
+        // test harness
+        final File file = File.createTempFile("file-path", ".txt");
+        file.deleteOnExit();
+        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        out.write("1, 2\n1, 3");
+        out.close();
+
+        // given
+        given(fileService.readFile(anyString()))
+                .willReturn(file);
+
+        // when
+        Map<Coord, Boolean> result = sut.getStartingPoints(filePath);
+
+        // then
+        assertThat(result).hasSize(2);
+
+        verify(fileService).readFile(same(filePath));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -50,6 +95,20 @@ public class StateServiceUnitTest {
                 .withHeight(0)
                 .build();
         final Coord coord = null;
+
+        // when
+        sut.getNewState(gameState, coord);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getNewStateWillThrowAnExceptionIfCoordIsInvalid() {
+
+        // test fixtures
+        final GameState gameState = GameState.Builder.create()
+                .withWidth(2)
+                .withHeight(2)
+                .build();
+        final Coord coord = new Coord(-1, 3);
 
         // when
         sut.getNewState(gameState, coord);
@@ -248,33 +307,6 @@ public class StateServiceUnitTest {
 
         // then
         assertThat(result).isFalse();
-
-        verify(neighboursService).getNeighbourValues(same(gameState), same(coord));
-    }
-
-    @Test
-    public void getNewStateWillReturnTheSameStateIfTheNumberOfNeighboursIsLessThanEight() {
-
-        // test fixtures
-        final GameState gameState = GameState.Builder.create()
-                .withWidth(3)
-                .withHeight(3)
-                .withCurrentValue(0, 0, Boolean.TRUE)
-                .build();
-        final Coord coord = new Coord(0, 0);
-
-        // test harness
-        final List<Boolean> neighbourValues = Lists.newArrayList(Boolean.TRUE, Boolean.FALSE, Boolean.FALSE);
-
-        // given
-        given(neighboursService.getNeighbourValues(any(GameState.class), any(Coord.class)))
-                .willReturn(neighbourValues);
-
-        // when
-        Boolean result = sut.getNewState(gameState, coord);
-
-        // then
-        assertThat(result).isTrue();
 
         verify(neighboursService).getNeighbourValues(same(gameState), same(coord));
     }
