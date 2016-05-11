@@ -12,6 +12,7 @@ public class Application {
 
 	@ControllerAdvice
 	static class JsonpAdvice extends AbstractJsonpResponseBodyAdvice {
+
 		public JsonpAdvice() {
 			super("callback");
 		}

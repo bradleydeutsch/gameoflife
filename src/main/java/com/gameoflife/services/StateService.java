@@ -63,23 +63,6 @@ public class StateService {
     }
 
     @Nonnull
-    private BufferedReader getBufferedReaderForFile(@Nonnull String filePath) throws FileNotFoundException {
-
-        File file = fileService.readFile(filePath);
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        return new BufferedReader(new InputStreamReader(fileInputStream));
-    }
-
-    @Nonnull
-    private Coord getCoordFromFileLine(@Nonnull String line) {
-
-        String[] coords = line.split(",");
-
-        return new Coord(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
-    }
-
-    @Nonnull
     public Boolean getNewState(@Nonnull GameState gameState, @Nonnull Coord coord) {
 
         notNull(gameState);
@@ -107,6 +90,23 @@ public class StateService {
         }
 
         return Boolean.FALSE;
+    }
+
+    @Nonnull
+    private BufferedReader getBufferedReaderForFile(@Nonnull String filePath) throws FileNotFoundException {
+
+        File file = fileService.readFile(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        return new BufferedReader(new InputStreamReader(fileInputStream));
+    }
+
+    @Nonnull
+    private Coord getCoordFromFileLine(@Nonnull String line) {
+
+        String[] coords = line.split(",");
+
+        return new Coord(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
     }
 
     private int trueCount(List<Boolean> result) {

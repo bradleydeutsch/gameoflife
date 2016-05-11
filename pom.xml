@@ -29,7 +29,7 @@
 
 		<!-- Tests -->
 
-		<spring.test.version>2.5</spring.test.version>
+		<rest.assured.version>2.4.1</rest.assured.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>1.10.8</mockito.version>
 		<assertj.core.version>2.1.0</assertj.core.version>
@@ -69,9 +69,17 @@
 		<!-- Tests -->
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.test.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest.assured.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
