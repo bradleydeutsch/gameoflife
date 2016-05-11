@@ -1,4 +1,4 @@
-package com.gameoflife;
+package com.gameoflife.services;
 
 import org.springframework.stereotype.Component;
 

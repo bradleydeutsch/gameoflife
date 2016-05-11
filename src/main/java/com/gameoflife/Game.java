@@ -2,6 +2,7 @@ package com.gameoflife;
 
 import com.gameoflife.models.Coord;
 import com.gameoflife.models.GameState;
+import com.gameoflife.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,14 @@ public class Game {
         this.startingPointsFilePath = startingPointsFilePath;
         this.stateService = stateService;
 
+        gameState = buildGameState();
+
+        executeGame();
+    }
+
+    @Nonnull
+    private GameState buildGameState() {
+
         final Map<Coord, Boolean> startingPoints = stateService.getStartingPoints(startingPointsFilePath);
 
         final GameState.Builder gameStateBuilder = GameState.Builder.create()
@@ -50,29 +59,30 @@ public class Game {
             gameStateBuilder.withCurrentValue(entry.getKey(), entry.getValue());
         }
 
-        gameState = gameStateBuilder.build();
-
-        iterateGame();
+        return gameStateBuilder.build();
     }
 
-    private void iterateGame() {
+    private void executeGame() {
 
         printGameState();
-
         for (int loopCount = iterations; loopCount > 0; loopCount--) {
-            int i;
-            for (i = 0; i < gameWidth; i++) {
-                int j;
-                for (j = 0; j < gameHeight; j++) {
-                    Coord coord = new Coord(i, j);
-                    gameState.setState(coord, stateService.getNewState(gameState, coord));
-                }
-                j = 0;
-            }
-            i = 0;
-
+            makeCompleteBoardPass();
             printGameState();
         }
+    }
+
+    private void makeCompleteBoardPass() {
+
+        int i;
+        for (i = 0; i < gameWidth; i++) {
+            int j;
+            for (j = 0; j < gameHeight; j++) {
+                Coord coord = new Coord(i, j);
+                gameState.setState(coord, stateService.getNewState(gameState, coord));
+            }
+            j = 0;
+        }
+        i = 0;
     }
 
     private void printGameState() {

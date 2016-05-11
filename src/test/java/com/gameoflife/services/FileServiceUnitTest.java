@@ -1,5 +1,6 @@
-package com.gameoflife;
+package com.gameoflife.services;
 
+import com.gameoflife.services.FileService;
 import org.junit.Test;
 
 import java.io.File;

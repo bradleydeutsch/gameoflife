@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+        <style type="text/css">
+            table {
+                border-collapse: collapse;
+            }
+            td {
+                width: 10px;
+                height: 10px;
+                border: 1px solid lightgrey;
+            }
+            td.on {
+                background: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+        </div>
+
+        <script type="text/javascript">
+            var loopCount = 500;
+
+            $.ajax({
+                url: '//localhost:8080/game',
+                dataType: 'JSONP',
+                jsonpCallback: 'callback',
+                type: 'GET',
+                success: function (data) {
+                    buildGrid(data);
+
+                    var interval = setInterval(function () {
+                        if (loopCount == 0) {
+                            clearInterval(interval);
+                        }
+
+                        $.ajax({
+                            url: '//localhost:8080/game/pass',
+                            dataType: 'JSONP',
+                            jsonpCallback: 'callback',
+                            type: 'GET',
+                            success: function (data) {
+                                buildGrid(data);
+                                loopCount--;
+                            }
+                        });
+                    }, 100);
+                }
+            });
+
+            function buildGrid(data) {
+                var tbl, tblBody, row, x, y, cell, cellText;
+
+                tbl = document.createElement("table");
+                tblBody = document.createElement("tbody");
+
+                for (x in data.cells) {
+                    row = document.createElement("tr");
+                    for (y in data.cells[x]) {
+                        cell = document.createElement("td");
+                        cell.className = data.cells[x][y] ? "on" : "";
+                        row.appendChild(cell)
+                    }
+                    tblBody.appendChild(row);
+                }
+                tbl.appendChild(tblBody);
+
+                $("#container").html(tbl);
+            }
+        </script>
+    </body>
+</html>

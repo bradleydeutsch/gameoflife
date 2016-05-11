@@ -1,6 +1,9 @@
 package com.gameoflife.models;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -10,21 +13,26 @@ import static org.springframework.util.Assert.notNull;
 
 public class GameState {
 
-    private final Map<Integer, Map<Integer, Boolean>> game;
+    private final Map<Integer, Map<Integer, Boolean>> cells;
 
     private GameState(
-            @Nonnull Map<Integer, Map<Integer, Boolean>> game
+            @Nonnull Map<Integer, Map<Integer, Boolean>> cells
     ) {
 
-        notNull(game);
+        notNull(cells);
 
-        this.game = game;
+        this.cells = cells;
+    }
+
+    @Nonnull
+    public Map<Integer, Map<Integer, Boolean>> getCells() {
+        return cells;
     }
 
     @Nullable
     public Boolean getState(int x, int y) {
 
-        return game.containsKey(x) ? game.get(x).get(y) : null;
+        return cells.containsKey(x) ? cells.get(x).get(y) : null;
     }
 
     @Nullable
@@ -32,36 +40,51 @@ public class GameState {
 
         notNull(coord);
 
-        return game.containsKey(coord.getX()) ? game.get(coord.getX()).get(coord.getY()) : null;
+        return cells.containsKey(coord.getX()) ? cells.get(coord.getX()).get(coord.getY()) : null;
     }
 
     public void setState(int x, int y, @Nonnull Boolean value) {
 
         notNull(value);
 
-        game.get(x).put(y, value);
+        cells.get(x).put(y, value);
     }
 
     public void setState(@Nonnull Coord coord, @Nonnull Boolean value) {
 
         notNull(value);
 
-        game.get(coord.getX()).put(coord.getY(), value);
+        cells.get(coord.getX()).put(coord.getY(), value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    /*@Override
+    public String toString() {
 
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<Integer, Map<Integer, Boolean>> x : game.entrySet()) {
+        for (Map.Entry<Integer, Map<Integer, Boolean>> x : cells.entrySet()) {
             for (Map.Entry<Integer, Boolean> y : x.getValue().entrySet()) {
                 sb.append(y.getValue() ? "X" : ".").append(" ");
             }
             sb.replace(sb.length() - 1, sb.length(), "").append("\n");
         }
-        return sb.substring(0, sb.length() - 1);
-    }
+        return sb.length() > 0 ? sb.substring(0, sb.length() - 1) : "";
+    }*/
 
     public static class Builder {
 

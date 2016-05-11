@@ -1,4 +1,4 @@
-package com.gameoflife;
+package com.gameoflife.services;
 
 import com.gameoflife.models.Coord;
 import com.gameoflife.models.GameState;
