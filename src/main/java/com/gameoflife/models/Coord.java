@@ -10,8 +10,8 @@ public class Coord {
     private final int y;
 
     public Coord(
-            int x,
-            int y
+            final int x,
+            final int y
     ) {
         this.x = x;
         this.y = y;

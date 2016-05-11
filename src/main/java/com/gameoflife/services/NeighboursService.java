@@ -15,12 +15,12 @@ import static org.springframework.util.Assert.notNull;
 public class NeighboursService {
 
     @Nonnull
-    public List<Boolean> getNeighbourValues(@Nonnull GameState gameState, @Nonnull Coord coord) {
+    public List<Boolean> getNeighbourValues(@Nonnull final GameState gameState, @Nonnull final Coord coord) {
 
         notNull(gameState);
         notNull(coord);
 
-        List<Boolean> neighbourValues = Lists.newArrayList();
+        final List<Boolean> neighbourValues = Lists.newArrayList();
 
         // topLeft
         neighbourValues.add(gameState.getState(coord.getX() - 1, coord.getY() - 1));
@@ -44,7 +44,7 @@ public class NeighboursService {
         return neighbourValues;
     }
 
-    private void removeNullsFromList(@Nonnull List<Boolean> neighbourValues) {
+    private void removeNullsFromList(@Nonnull final List<Boolean> neighbourValues) {
 
         neighbourValues.removeAll(Collections.singleton(null));
     }

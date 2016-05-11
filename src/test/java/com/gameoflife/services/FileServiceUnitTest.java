@@ -1,6 +1,5 @@
 package com.gameoflife.services;
 
-import com.gameoflife.services.FileService;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,7 +27,7 @@ public class FileServiceUnitTest {
         final String filePath = "inputFile.txt";
 
         // when
-        File result = sut.readFile(filePath);
+        final File result = sut.readFile(filePath);
 
         // then
         assertThat(result).isNotNull();

@@ -13,12 +13,12 @@ import static org.springframework.util.Assert.notNull;
 public class FileService {
 
     @Nonnull
-    public File readFile(@Nonnull String filePath) {
+    public File readFile(@Nonnull final String filePath) {
 
         notNull(filePath);
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(filePath);
+        final ClassLoader classLoader = getClass().getClassLoader();
+        final URL resource = classLoader.getResource(filePath);
 
         if (resource == null) {
             throw new IllegalArgumentException(format("No resource found for path \"%s\"", filePath));

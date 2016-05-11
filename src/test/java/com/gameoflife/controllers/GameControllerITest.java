@@ -32,7 +32,7 @@ public class GameControllerITest {
 	@Test
 	public void startNewGameReturnsNewGameState() {
 
-		String body =
+		final String body =
 				given()
 						.get("/game")
 						.then()
@@ -47,7 +47,7 @@ public class GameControllerITest {
 
 		given().get("/game");
 
-		String body =
+		final String body =
 				given()
 						.get("/game/pass")
 						.then()

@@ -5,6 +5,7 @@ import com.gameoflife.models.GameState;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,7 +61,7 @@ public class NeighboursServiceUnitTest {
         final Coord coord = new Coord(1, 1);
 
         // when
-        List<Boolean> result = sut.getNeighbourValues(gameState, coord);
+        final List<Boolean> result = sut.getNeighbourValues(gameState, coord);
 
         // then
         assertThat(result).hasSize(8);
@@ -81,14 +82,14 @@ public class NeighboursServiceUnitTest {
         final Coord coord = new Coord(0, 0);
 
         // when
-        List<Boolean> result = sut.getNeighbourValues(gameState, coord);
+        final List<Boolean> result = sut.getNeighbourValues(gameState, coord);
 
         // then
         assertThat(result).hasSize(3);
         assertThat(trueCount(result)).isEqualTo(1);
     }
 
-    private int trueCount(List<Boolean> result) {
+    private int trueCount(@Nonnull final List<Boolean> result) {
 
         int trueCount = 0;
         for (Boolean value : result) {

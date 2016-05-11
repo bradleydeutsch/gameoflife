@@ -67,7 +67,7 @@ public class StateServiceUnitTest {
                 .willReturn(file);
 
         // when
-        Map<Coord, Boolean> result = sut.getStartingPoints(filePath);
+        final Map<Coord, Boolean> result = sut.getStartingPoints(filePath);
 
         // then
         assertThat(result).hasSize(2);
@@ -137,7 +137,7 @@ public class StateServiceUnitTest {
                 .willReturn(neighbourValues);
 
         // when
-        Boolean result = sut.getNewState(gameState, coord);
+        final Boolean result = sut.getNewState(gameState, coord);
 
         // then
         assertThat(result).isFalse();
@@ -203,7 +203,7 @@ public class StateServiceUnitTest {
                 .willReturn(neighbourValues);
 
         // when
-        Boolean result = sut.getNewState(gameState, coord);
+        final Boolean result = sut.getNewState(gameState, coord);
 
         // then
         assertThat(result).isTrue();
@@ -236,7 +236,7 @@ public class StateServiceUnitTest {
                 .willReturn(neighbourValues);
 
         // when
-        Boolean result = sut.getNewState(gameState, coord);
+        final Boolean result = sut.getNewState(gameState, coord);
 
         // then
         assertThat(result).isTrue();
@@ -269,7 +269,7 @@ public class StateServiceUnitTest {
                 .willReturn(neighbourValues);
 
         // when
-        Boolean result = sut.getNewState(gameState, coord);
+        final Boolean result = sut.getNewState(gameState, coord);
 
         // then
         assertThat(result).isTrue();
@@ -303,7 +303,7 @@ public class StateServiceUnitTest {
                 .willReturn(neighbourValues);
 
         // when
-        Boolean result = sut.getNewState(gameState, coord);
+        final Boolean result = sut.getNewState(gameState, coord);
 
         // then
         assertThat(result).isFalse();
@@ -311,9 +311,9 @@ public class StateServiceUnitTest {
         verify(neighboursService).getNeighbourValues(same(gameState), same(coord));
     }
 
-    private List<Boolean> buildNeighbourValues(int trueCount) {
+    private List<Boolean> buildNeighbourValues(final int trueCount) {
 
-        List<Boolean> neighbourValues = Lists.newArrayList();
+        final List<Boolean> neighbourValues = Lists.newArrayList();
 
         for (int i = 0; i < 8; i++) {
             neighbourValues.add((i < trueCount) ? Boolean.TRUE : Boolean.FALSE);

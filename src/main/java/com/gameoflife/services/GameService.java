@@ -18,7 +18,7 @@ public class GameService {
 
     @Autowired
     public GameService(
-            @Nonnull StateService stateService
+            @Nonnull final StateService stateService
     ) {
 
         notNull(stateService);
@@ -27,7 +27,8 @@ public class GameService {
     }
 
     @Nonnull
-    public GameState createNewGame(int gameWidth, int gameHeight, @Nullable String startingPointsFilePath) {
+    public GameState createNewGame(final int gameWidth, final int gameHeight,
+                                   @Nullable final String startingPointsFilePath) {
 
         final GameState.Builder gameStateBuilder = GameState.Builder.create()
                 .withWidth(gameWidth)
@@ -38,7 +39,7 @@ public class GameService {
         return gameStateBuilder.build();
     }
 
-    public void makeABoardPass(@Nonnull GameState gameState) {
+    public void makeABoardPass(@Nonnull final GameState gameState) {
 
         notNull(gameState);
 
@@ -51,8 +52,8 @@ public class GameService {
         }
     }
 
-    private void setStartingPoints(@Nonnull GameState.Builder gameStateBuilder,
-                                   @Nullable String startingPointsFilePath) {
+    private void setStartingPoints(@Nonnull final GameState.Builder gameStateBuilder,
+                                   @Nullable final String startingPointsFilePath) {
 
         if (startingPointsFilePath == null) {
             return;

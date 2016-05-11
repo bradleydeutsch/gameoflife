@@ -36,7 +36,7 @@ public class GameControllerUnitTest {
     public void startNewGameReturnsNewGameState() {
 
         // test harness
-        GameState gameState = GameState.Builder.create()
+        final GameState gameState = GameState.Builder.create()
                 .withWidth(1)
                 .withHeight(1)
                 .build();
@@ -46,7 +46,7 @@ public class GameControllerUnitTest {
                 .willReturn(gameState);
 
         // when
-        GameState result = sut.startNewGame();
+        final GameState result = sut.startNewGame();
 
         // then
         assertThat(result).isSameAs(gameState);
@@ -58,14 +58,14 @@ public class GameControllerUnitTest {
     public void makeGamePassWillUpdateAllCellsAndReturnTheLatestStateOfTheBoard() {
 
         // test harness
-        GameState gameState = GameState.Builder.create()
+        final GameState gameState = GameState.Builder.create()
                 .withWidth(1)
                 .withHeight(1)
                 .build();
         sut.setGameState(gameState);
 
         // when
-        GameState result = sut.makeGamePass();
+        final GameState result = sut.makeGamePass();
 
         // then
         assertThat(result).isSameAs(gameState);

@@ -27,8 +27,8 @@ public class StateService {
 
     @Autowired
     public StateService(
-            @Nonnull NeighboursService neighboursService,
-            @Nonnull FileService fileService
+            @Nonnull final NeighboursService neighboursService,
+            @Nonnull final FileService fileService
     ) {
 
         notNull(neighboursService);
@@ -39,15 +39,14 @@ public class StateService {
     }
 
     @Nonnull
-    public Map<Coord, Boolean> getStartingPoints(@Nonnull String filePath) {
+    public Map<Coord, Boolean> getStartingPoints(@Nonnull final String filePath) {
 
         notNull(filePath);
 
-        Map<Coord, Boolean> startingPoints = Maps.newHashMap();
+        final Map<Coord, Boolean> startingPoints = Maps.newHashMap();
 
         try {
-
-            BufferedReader bufferedReader = getBufferedReaderForFile(filePath);
+            final BufferedReader bufferedReader = getBufferedReaderForFile(filePath);
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -63,14 +62,14 @@ public class StateService {
     }
 
     @Nonnull
-    public Boolean getNewState(@Nonnull GameState gameState, @Nonnull Coord coord) {
+    public Boolean getNewState(@Nonnull final GameState gameState, @Nonnull final Coord coord) {
 
         notNull(gameState);
         notNull(coord);
 
-        Boolean currentlyLive = gameState.getState(coord);
-        List<Boolean> neighbourValues = neighboursService.getNeighbourValues(gameState, coord);
-        int trueCount = trueCount(neighbourValues);
+        final Boolean currentlyLive = gameState.getState(coord);
+        final List<Boolean> neighbourValues = neighboursService.getNeighbourValues(gameState, coord);
+        final int trueCount = trueCount(neighbourValues);
 
         if (currentlyLive == null) {
             throw new IllegalArgumentException(
@@ -93,18 +92,18 @@ public class StateService {
     }
 
     @Nonnull
-    private BufferedReader getBufferedReaderForFile(@Nonnull String filePath) throws FileNotFoundException {
+    private BufferedReader getBufferedReaderForFile(@Nonnull final String filePath) throws FileNotFoundException {
 
-        File file = fileService.readFile(filePath);
-        FileInputStream fileInputStream = new FileInputStream(file);
+        final File file = fileService.readFile(filePath);
+        final FileInputStream fileInputStream = new FileInputStream(file);
 
         return new BufferedReader(new InputStreamReader(fileInputStream));
     }
 
     @Nonnull
-    private Coord getCoordFromFileLine(@Nonnull String line) {
+    private Coord getCoordFromFileLine(@Nonnull final String line) {
 
-        String[] coords = line.split(",");
+        final String[] coords = line.split(",");
 
         return new Coord(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
     }

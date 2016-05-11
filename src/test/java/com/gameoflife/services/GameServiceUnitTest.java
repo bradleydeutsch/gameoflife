@@ -41,7 +41,7 @@ public class GameServiceUnitTest {
         final String startingPointsFilePath = null;
 
         // when
-        GameState result = sut.createNewGame(gameWidth, gameHeight, startingPointsFilePath);
+        final GameState result = sut.createNewGame(gameWidth, gameHeight, startingPointsFilePath);
 
         // then
         assertThat(result).isNotNull();
@@ -60,7 +60,7 @@ public class GameServiceUnitTest {
         final String startingPointsFilePath = "some-path";
 
         // test harness
-        Map<Coord, Boolean> startingPoints = Maps.newHashMap();
+        final Map<Coord, Boolean> startingPoints = Maps.newHashMap();
         startingPoints.put(new Coord(1, 1), true);
         startingPoints.put(new Coord(3, 4), true);
 
@@ -69,7 +69,7 @@ public class GameServiceUnitTest {
                 .willReturn(startingPoints);
 
         // when
-        GameState result = sut.createNewGame(gameWidth, gameHeight, startingPointsFilePath);
+        final GameState result = sut.createNewGame(gameWidth, gameHeight, startingPointsFilePath);
 
         // then
         assertThat(result).isNotNull();

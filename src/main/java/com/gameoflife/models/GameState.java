@@ -16,7 +16,7 @@ public class GameState {
     private final Map<Integer, Map<Integer, Boolean>> cells;
 
     private GameState(
-            @Nonnull Map<Integer, Map<Integer, Boolean>> cells
+            @Nonnull final Map<Integer, Map<Integer, Boolean>> cells
     ) {
 
         notNull(cells);
@@ -30,27 +30,27 @@ public class GameState {
     }
 
     @Nullable
-    public Boolean getState(int x, int y) {
+    public Boolean getState(final int x, final int y) {
 
         return cells.containsKey(x) ? cells.get(x).get(y) : null;
     }
 
     @Nullable
-    public Boolean getState(@Nonnull Coord coord) {
+    public Boolean getState(@Nonnull final Coord coord) {
 
         notNull(coord);
 
         return cells.containsKey(coord.getX()) ? cells.get(coord.getX()).get(coord.getY()) : null;
     }
 
-    public void setState(int x, int y, @Nonnull Boolean value) {
+    public void setState(final int x, final int y, @Nonnull final Boolean value) {
 
         notNull(value);
 
         cells.get(x).put(y, value);
     }
 
-    public void setState(@Nonnull Coord coord, @Nonnull Boolean value) {
+    public void setState(@Nonnull final Coord coord, @Nonnull final Boolean value) {
 
         notNull(value);
 
@@ -98,25 +98,25 @@ public class GameState {
         }
 
         @Nonnull
-        public Builder withWidth(int width) {
+        public Builder withWidth(final int width) {
             this.width = width;
             return this;
         }
 
         @Nonnull
-        public Builder withHeight(int height) {
+        public Builder withHeight(final int height) {
             this.height = height;
             return this;
         }
 
         @Nonnull
-        public Builder withCurrentValue(@Nonnull Coord coord, @Nonnull Boolean value) {
+        public Builder withCurrentValue(@Nonnull final Coord coord, @Nonnull final Boolean value) {
             values.put(coord, value);
             return this;
         }
 
         @Nonnull
-        public Builder withCurrentValue(int x, int y, @Nonnull Boolean value) {
+        public Builder withCurrentValue(final int x, final int y, @Nonnull final Boolean value) {
             values.put(new Coord(x, y), value);
             return this;
         }
@@ -124,7 +124,7 @@ public class GameState {
         @Nonnull
         public GameState build() {
 
-            Map<Integer, Map<Integer, Boolean>> gameMap = Maps.newHashMap();
+            final Map<Integer, Map<Integer, Boolean>> gameMap = Maps.newHashMap();
 
             for (int i = 0; i < width; i++) {
                 Map<Integer, Boolean> innerMap = Maps.newHashMap();
