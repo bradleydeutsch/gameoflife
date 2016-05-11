@@ -32,4 +32,14 @@ public class FileServiceUnitTest {
         // then
         assertThat(result).isNotNull();
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void readFileWithInvalidFilenameWillThrowAnException() {
+
+        // test fixtures
+        final String filePath = "i-dont-exist.txt";
+
+        // when
+        sut.readFile(filePath);
+    }
 }

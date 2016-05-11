@@ -9,12 +9,15 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
+import static org.springframework.util.Assert.notNull;
+
 @Component
 public class Game {
 
     private final int iterations;
     private final int gameWidth;
     private final int gameHeight;
+    private final String startingPointsFilePath;
     private final StateService stateService;
 
     private final GameState gameState;
@@ -24,14 +27,20 @@ public class Game {
             @Value("${game.iterations}") int iterations,
             @Value("${game.width}") int gameWidth,
             @Value("${game.height}") int gameHeight,
+            @Nonnull @Value("${game.starting.points.file.path}") String startingPointsFilePath,
             @Nonnull StateService stateService
     ) {
+
+        notNull(startingPointsFilePath);
+        notNull(stateService);
+
         this.iterations = iterations;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
+        this.startingPointsFilePath = startingPointsFilePath;
         this.stateService = stateService;
 
-        final Map<Coord, Boolean> startingPoints = stateService.getStartingPoints("game-of-life-load-file.csv");
+        final Map<Coord, Boolean> startingPoints = stateService.getStartingPoints(startingPointsFilePath);
 
         final GameState.Builder gameStateBuilder = GameState.Builder.create()
                 .withWidth(gameWidth)
