@@ -22,3 +22,9 @@ test game of life project for demo/test
 
 If any of these instructions do not make sense - read the wiki and ask questions!
 
+# To Run
+
+* Start the SpringBoot application by running Application.java and ensure the site is running on 127.0.0.1:8080
+* Start a server in the project root (separate from Application.java) so that index.html is the root homepage
+  * Can use npm http-server.  E.g. http-server -a 127.0.0.1 -p 8081
+  * Open browser to 127.0.0.1:8081 to watch game
