@@ -13,15 +13,29 @@ import static org.springframework.util.Assert.notNull;
 
 public class GameState {
 
+    private final int width;
+    private final int height;
     private final Map<Integer, Map<Integer, Boolean>> cells;
 
     private GameState(
+            int width,
+            int height,
             @Nonnull final Map<Integer, Map<Integer, Boolean>> cells
     ) {
 
         notNull(cells);
 
+        this.width = width;
+        this.height = height;
         this.cells = cells;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     @Nonnull
@@ -134,7 +148,7 @@ public class GameState {
                 gameMap.put(i, innerMap);
             }
 
-            final GameState gameState = new GameState(gameMap);
+            final GameState gameState = new GameState(width, height, gameMap);
 
             for (Map.Entry<Coord, Boolean> entry : values.entrySet()) {
                 gameState.setState(entry.getKey(), entry.getValue());

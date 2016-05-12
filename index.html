@@ -21,7 +21,7 @@
         </div>
 
         <script type="text/javascript">
-            var loopCount = 500;
+            var loopCount = 2000;
 
             $.ajax({
                 url: '//localhost:8080/game',
@@ -32,6 +32,7 @@
                     buildGrid(data);
 
                     var interval = setInterval(function () {
+
                         if (loopCount == 0) {
                             clearInterval(interval);
                         }
@@ -46,12 +47,13 @@
                                 loopCount--;
                             }
                         });
-                    }, 100);
+                    }, 50);
                 }
             });
 
             function buildGrid(data) {
-                var tbl, tblBody, row, x, y, cell, cellText;
+
+                var tbl, tblBody, row, x, y, cell;
 
                 tbl = document.createElement("table");
                 tblBody = document.createElement("tbody");
